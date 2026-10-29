@@ -533,7 +533,9 @@ function initScene(THREE) {
       const worldPerPx = visH / h;
       const topPx = topbarEl ? topbarEl.getBoundingClientRect().bottom : h * 0.06;
       const heroPx = copyEl ? copyEl.getBoundingClientRect().top : h * 0.46;
-      const bandPx = Math.max(h * 0.18, heroPx - topPx);
+      // never larger than the gap CSS actually leaves: the canvas is fixed, so an
+      // oversized band would put the 3D behind the headline
+      const bandPx = Math.max(h * 0.14, heroPx - topPx);
       const ext = clusterExtent(layout, TILE_HALF * tileScale);
 
       baseScale = Math.min((visW * 0.94) / ext.w, (bandPx * worldPerPx * 0.95) / ext.h);
@@ -542,11 +544,17 @@ function initScene(THREE) {
       const bandCenterY = 0.28 + (h / 2 - (topPx + bandPx / 2)) * worldPerPx;
       stage.position.x = 0;
       stage.position.y = bandCenterY - ext.cy * baseScale;
+
+      // keep the contact shadow under the laptop, not under the bottom arc
+      shadow.position.y = -0.95;
+      shadow.scale.set(3.1, 0.95, 1);
     } else {
       const clusterW = 2 * (TILE_MAX_X + TILE_HALF);
       baseScale = Math.min((visW * 0.54) / clusterW, (visH * 0.8) / CLUSTER_H);
       stage.position.x = visW * 0.20;
       stage.position.y = -visH * 0.02;
+      shadow.position.y = -1.62;
+      shadow.scale.set(3.5, 1.05, 1);
     }
   }
   window.addEventListener('resize', resize);
