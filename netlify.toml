@@ -1,0 +1,8 @@
+# Static landing page — no build command, no publish folder to set.
+# Drag-and-drop deploys ignore this file; it matters only for a Git-connected site.
+
+[[redirects]]
+  from = "https://www.vaibhavbuilds.space/*"
+  to = "https://vaibhavbuilds.space/:splat"
+  status = 301
+  force = true
